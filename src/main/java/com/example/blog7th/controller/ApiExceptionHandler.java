@@ -13,10 +13,10 @@ import java.util.Map;
 public class ApiExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(@NonNull MethodArgumentNotValidException ex) {
+
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
 
-        //응답 예외처리
         String errorMessage = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
         errors.put("error", "Bad Request");
         errors.put("message", errorMessage);
