@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/strings")
+@RequestMapping("/api/v1")
 public class StringController {
 
     private final StringService stringService;
 
-    @PostMapping("/repeat")
+    @PostMapping("strings/repeat")
     public StringResponse repeat(@Valid @RequestBody StringRequest request) {
 
         return stringService.repeatString(request.getValue());
