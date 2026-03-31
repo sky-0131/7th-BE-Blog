@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {

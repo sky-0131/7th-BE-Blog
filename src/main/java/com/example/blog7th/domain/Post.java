@@ -34,9 +34,6 @@ public class Post extends BaseEntity {
     @Column(name = "view_count")
     private int viewCount = 0;
 
-    @Column(name = "like_count")
-    private int likeCount = 0;
-
     @Column(name = "comment_count")
     private int commentCount = 0;
 

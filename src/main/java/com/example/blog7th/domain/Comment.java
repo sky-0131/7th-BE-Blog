@@ -22,9 +22,6 @@ public class Comment extends BaseEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @Column(name = "like_count")
-    private int likeCount = 0;
-
     //
     // N:1 관계 (작성자)
     @ManyToOne(fetch = FetchType.LAZY)
