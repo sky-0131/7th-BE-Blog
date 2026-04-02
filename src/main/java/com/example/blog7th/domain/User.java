@@ -31,8 +31,9 @@ public class User extends BaseEntity {
     @Column(name = "profile_image", length = 1000)
     private String profileImage;
 
-    @Column(length = 20)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserRole role;
 
     @Column(name = "is_active", nullable = false)
     private boolean isActive = true;
@@ -45,7 +46,7 @@ public class User extends BaseEntity {
     private List<Comment> comments = new ArrayList<>();
 
     @Builder
-    public User(String email, String password, String nickname, String profileImage, String role) {
+    public User(String email, String password, String nickname, String profileImage, UserRole role) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;

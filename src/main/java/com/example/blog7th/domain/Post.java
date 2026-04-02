@@ -28,8 +28,9 @@ public class Post extends BaseEntity {
     @Column(length = 1000)
     private String thumbnail;
 
-    @Column(length = 20)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PostStatus status;
 
     @Column(name = "view_count")
     private int viewCount = 0;
@@ -47,7 +48,7 @@ public class Post extends BaseEntity {
     private List<Comment> comments = new ArrayList<>();
 
     @Builder
-    public Post(String title, String content, String thumbnail, String status, User user) {
+    public Post(String title, String content, String thumbnail, PostStatus status, User user) {
         this.title = title;
         this.content = content;
         this.thumbnail = thumbnail;
