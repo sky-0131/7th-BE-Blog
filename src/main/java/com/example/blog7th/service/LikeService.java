@@ -6,8 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true) // 기본적으로 읽기 전용으로 설정 (성능 최적화)
@@ -28,22 +26,22 @@ public class LikeService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
 
-        // 1. 이미 좋아요를 눌렀는지 확인 (누가, 어떤 포스트에)
-        Optional<Like> existingLike = likeRepository.findByUserAndPost(user, post);
+        // if-else 대신 ifPresentOrElse 사용
+        likeRepository.findByUserAndPost(user, post)
+                .ifPresentOrElse(
+                        // 1. 이미 좋아요가 있을 때 (삭제)
+                        like -> likeRepository.delete(like),
 
-        if (existingLike.isPresent()) {
-            // 2. 이미 있다면? 삭제 (좋아요 취소)
-            likeRepository.delete(existingLike.get());
-        } else {
-            // 3. 없다면? 생성 (좋아요 1개 제한 자동 해결)
-            Like like = Like.builder()
-                    .user(user)
-                    .post(post)
-                    .build();
-            likeRepository.save(like);
-        }
+                        // 2. 없을 때 (생성 및 저장)
+                        () -> {
+                            Like like = Like.builder()
+                                    .user(user)
+                                    .post(post)
+                                    .build();
+                            likeRepository.save(like);
+                        }
+                );
     }
-
     /**
      * 댓글 좋아요 토글
      */

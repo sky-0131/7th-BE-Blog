@@ -34,9 +34,9 @@ public abstract class BaseEntity {
     private LocalDateTime deletedAt;
 
 
-    public void delete() {
+    public void delete(LocalDateTime deletedAt) { // 외부에서 시간을 주입받음
         this.isDeleted = true;
-        this.deletedAt = LocalDateTime.now();
+        this.deletedAt = deletedAt;
     }
 
     public void undoDelete() {
