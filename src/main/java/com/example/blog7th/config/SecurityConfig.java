@@ -13,9 +13,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) //우선 비활성화
+                .csrf(csrf -> csrf.disable())
+
+                .headers(headers -> headers
+                        .frameOptions(frame -> frame.sameOrigin())
+                )
+
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/likes/**").authenticated() // 좋아요 API는 인증
+                        .requestMatchers("/h2-console/**").permitAll()
+
+                        .requestMatchers("/api/likes/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form.defaultSuccessUrl("/")) // 로그인 성공 시 이동할 곳
