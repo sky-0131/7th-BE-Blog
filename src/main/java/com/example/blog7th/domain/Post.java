@@ -35,9 +35,6 @@ public class Post extends BaseEntity {
     @Column(name = "view_count")
     private int viewCount = 0;
 
-    @Column(name = "comment_count")
-    private int commentCount = 0;
-
     //
     // N:1 관계 (작성자)
     @ManyToOne(fetch = FetchType.LAZY)
