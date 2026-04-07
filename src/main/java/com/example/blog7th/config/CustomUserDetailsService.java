@@ -1,6 +1,6 @@
 package com.example.blog7th.config;
 
-import com.example.blog7th.domain.User;
+import com.example.blog7th.domain.user.User;
 import com.example.blog7th.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

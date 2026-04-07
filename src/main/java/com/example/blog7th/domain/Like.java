@@ -1,5 +1,8 @@
 package com.example.blog7th.domain;
 
+import com.example.blog7th.domain.post.Comment;
+import com.example.blog7th.domain.post.Post;
+import com.example.blog7th.domain.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 

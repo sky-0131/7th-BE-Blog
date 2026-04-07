@@ -1,5 +1,7 @@
-package com.example.blog7th.domain;
+package com.example.blog7th.domain.post;
 
+import com.example.blog7th.domain.BaseEntity;
+import com.example.blog7th.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

@@ -1,6 +1,6 @@
 package com.example.blog7th.config;
 
-import com.example.blog7th.domain.User;
+import com.example.blog7th.domain.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;

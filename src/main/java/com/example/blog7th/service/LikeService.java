@@ -1,6 +1,9 @@
 package com.example.blog7th.service;
 
 import com.example.blog7th.domain.*;
+import com.example.blog7th.domain.post.Comment;
+import com.example.blog7th.domain.post.Post;
+import com.example.blog7th.domain.user.User;
 import com.example.blog7th.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

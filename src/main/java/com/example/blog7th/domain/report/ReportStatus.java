@@ -1,4 +1,4 @@
-package com.example.blog7th.domain;
+package com.example.blog7th.domain.report;
 
 public enum ReportStatus {
     PENDING,    // 접수 대기
