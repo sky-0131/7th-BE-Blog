@@ -5,6 +5,7 @@ import com.example.blog7th.domain.user.User;
 import com.example.blog7th.domain.post.Post;
 import com.example.blog7th.repository.UserRepository;
 import com.example.blog7th.repository.PostRepository;
+import com.example.blog7th.domain.post.PostStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,14 +42,19 @@ public class PostService {
     // 게시글 작성
     @Transactional
     public Long createPost(PostRequest requestDto, Long userId) {
+        // 1. 유저 존재 여부 확인 및 객체 가져오기
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("USER4041")); // 유저가 존재하지 않음
+                .orElseThrow(() -> new RuntimeException("USER4041"));
 
+        // 2. 게시글 객체 생성 (중복 선언 제거 및 타입 변환 적용)
         Post post = Post.builder()
                 .title(requestDto.getTitle())
                 .content(requestDto.getContent())
+                .status(PostStatus.valueOf(requestDto.getStatus()))
+                .user(user) // 📍 외래키 연결
                 .build();
 
+        // 3. 저장 후 생성된 ID 반환
         return postRepository.save(post).getId();
     }
 
