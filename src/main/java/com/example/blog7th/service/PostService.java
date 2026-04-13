@@ -42,11 +42,11 @@ public class PostService {
     // 게시글 작성
     @Transactional
     public Long createPost(PostRequest requestDto, Long userId) {
-        // 1. 유저 존재 여부 확인 및 객체 가져오기
+        // 유저 존재 여부 확인 및 객체 가져오기
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("USER4041"));
 
-        // 2. 게시글 객체 생성 (중복 선언 제거 및 타입 변환 적용)
+        // 게시글 객체 생성 (중복 선언 제거 및 타입 변환 적용)
         Post post = Post.builder()
                 .title(requestDto.getTitle())
                 .content(requestDto.getContent())
@@ -54,7 +54,7 @@ public class PostService {
                 .user(user) // 📍 외래키 연결
                 .build();
 
-        // 3. 저장 후 생성된 ID 반환
+        // 저장 후 생성된 ID 반환
         return postRepository.save(post).getId();
     }
 
@@ -69,7 +69,8 @@ public class PostService {
             throw new RuntimeException("COMMON403");
         }
 
-        post.update(requestDto.getTitle(), requestDto.getContent());
+        post.update(requestDto.getTitle(), requestDto.getContent(), PostStatus.valueOf(requestDto.getStatus())
+        );
     }
 
     // 게시글 삭제
