@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +21,7 @@ public class PostController {
 
     // 게시글 작성
     @PostMapping
-    public Long createPost(@RequestBody PostRequest requestDto, @RequestParam Long userId) {
+    public Long createPost(@RequestBody @Valid PostRequest requestDto, @RequestParam Long userId) {
         return postService.createPost(requestDto, userId);
     }
 
@@ -39,7 +40,7 @@ public class PostController {
 
     // 게시글 수정
     @PutMapping("/{postId}")
-    public void updatePost(
+    public void updatePost(@Valid
             @PathVariable Long postId,
             @RequestBody PostRequest requestDto,
             @RequestParam Long userId) {
