@@ -50,7 +50,7 @@ public class PostService {
         Post post = Post.builder()
                 .title(requestDto.getTitle())
                 .content(requestDto.getContent())
-                .status(PostStatus.valueOf(requestDto.getStatus()))
+                .status(requestDto.getStatus())
                 .user(user) // 📍 외래키 연결
                 .build();
 
@@ -69,8 +69,7 @@ public class PostService {
             throw new RuntimeException("COMMON403");
         }
 
-        post.update(requestDto.getTitle(), requestDto.getContent(), PostStatus.valueOf(requestDto.getStatus())
-        );
+        post.update(requestDto.getTitle(), requestDto.getContent(), requestDto.getStatus());
     }
 
     // 게시글 삭제

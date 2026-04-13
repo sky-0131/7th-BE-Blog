@@ -1,6 +1,8 @@
 package com.example.blog7th.dto;
 
+import com.example.blog7th.domain.post.PostStatus;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +15,7 @@ public class PostRequest {
     @NotBlank(message = "내용은 필수입니다.")
     private String content;
 
-    @NotBlank(message = "공개 여부는 필수입니다.")
-    private String status;
+    //(수정) Enum은 빈 문자열이 아닌 객체이므로 @NotNull을 사용.
+    @NotNull(message = "공개 여부는 필수입니다.")
+    private PostStatus status;
 }
