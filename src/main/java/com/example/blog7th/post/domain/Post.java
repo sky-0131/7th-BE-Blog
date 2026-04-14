@@ -1,5 +1,6 @@
 package com.example.blog7th.post.domain;
 
+import com.example.blog7th.comment.domain.Comment;
 import com.example.blog7th.global.domain.BaseEntity;
 import com.example.blog7th.user.domain.User;
 import jakarta.persistence.*;
@@ -76,4 +77,11 @@ public class Post extends BaseEntity {
         }
         return userId.equals(this.user.getId());
     }
+
+    public void unpinAllComments() {
+        this.comments.stream()
+                .filter(Comment::isPinned) // 고정된 댓글들만 필터링
+                .forEach(Comment::unpin);  // 모두 고정 해제 호출
+    }
+
 }

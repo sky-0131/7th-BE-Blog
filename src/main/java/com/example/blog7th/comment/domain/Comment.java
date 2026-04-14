@@ -1,12 +1,14 @@
-package com.example.blog7th.post.domain;
+package com.example.blog7th.comment.domain;
 
 import com.example.blog7th.global.domain.BaseEntity;
+import com.example.blog7th.post.domain.Post;
 import com.example.blog7th.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -36,12 +38,12 @@ public class Comment extends BaseEntity {
     private Post post;
 
     //대댓글, 자기 참조
-    // 1. 부모 댓글 (내가 누구의 대댓글인지)
+    // 부모 댓글
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Comment parent;
 
-    // 2. 자식 댓글들 (내 밑에 달린 답글들)
+    // 자식 댓글들
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> children = new ArrayList<>();
 
@@ -53,7 +55,17 @@ public class Comment extends BaseEntity {
         this.post = post;
     }
 
-    public void update(String content) {
-        this.content = content;
+    //
+    @Column(name = "is_pinned", nullable = false)
+    private boolean isPinned = false;
+
+    public boolean isPinned() {
+        return isPinned;
+    }
+    public void pin() {
+        this.isPinned = true;
+    }
+    public void unpin() {
+        this.isPinned = false;
     }
 }

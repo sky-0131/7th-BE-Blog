@@ -1,7 +1,7 @@
 package com.example.blog7th.user.domain;
 
 import com.example.blog7th.global.domain.BaseEntity;
-import com.example.blog7th.post.domain.Comment;
+import com.example.blog7th.comment.domain.Comment;
 import com.example.blog7th.post.domain.Post;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

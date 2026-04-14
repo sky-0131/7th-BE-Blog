@@ -3,7 +3,7 @@ package com.example.blog7th.like.service;
 import com.example.blog7th.comment.repository.CommentRepository;
 import com.example.blog7th.like.repository.LikeRepository;
 import com.example.blog7th.like.domain.Like;
-import com.example.blog7th.post.domain.Comment;
+import com.example.blog7th.comment.domain.Comment;
 import com.example.blog7th.post.domain.Post;
 import com.example.blog7th.post.repository.PostRepository;
 import com.example.blog7th.user.domain.User;
