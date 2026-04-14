@@ -1,6 +1,7 @@
 package com.example.blog7th.post.domain;
 
 public enum PostStatus {
-    DRAFT,      
-    PUBLISHED
+    ACTIVE,
+    HIDDEN,
+    DELETED   //임시 저장
 }

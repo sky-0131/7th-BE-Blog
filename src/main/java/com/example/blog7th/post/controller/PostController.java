@@ -1,14 +1,13 @@
 package com.example.blog7th.post.controller;
 
-import com.example.blog7th.post.dto.PostRequest;
-import com.example.blog7th.post.dto.PostResponse;
-import com.example.blog7th.post.dto.PostListResponse;
+import com.example.blog7th.post.dto.*;
 import com.example.blog7th.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
@@ -51,5 +50,16 @@ public class PostController {
     @DeleteMapping("/{postId}")
     public void deletePost(@PathVariable Long postId, @RequestParam Long userId) {
         postService.deletePost(postId, userId);
+    }
+
+    // 게시물 숨기기
+    @PatchMapping("/{postId}/hide")
+    public ResponseEntity<PostHideResponse> hidePost(
+            @PathVariable Long postId,
+            @RequestParam Long userId,
+            @RequestBody(required = false) PostHideRequest request
+    ) {
+        PostHideResponse response = postService.hidePost(postId, userId);
+        return ResponseEntity.ok(response);
     }
 }

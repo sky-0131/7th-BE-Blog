@@ -60,4 +60,20 @@ public class Post extends BaseEntity {
         this.content = content;
         this.status = status;
     }
+
+    // 게시물 숨김 처리
+    public void hide() {
+        if (this.status == PostStatus.HIDDEN) {
+            throw new IllegalStateException("이미 숨김 처리된 게시물입니다.");
+        }
+        this.status = PostStatus.HIDDEN;
+    }
+
+    // 작성자 일치 여부 확인
+    public boolean isOwner(Long userId) {
+        if (userId == null || this.user == null) {
+            return false;
+        }
+        return userId.equals(this.user.getId());
+    }
 }

@@ -1,8 +1,6 @@
 package com.example.blog7th.post.service;
 
-import com.example.blog7th.post.dto.PostListResponse;
-import com.example.blog7th.post.dto.PostRequest;
-import com.example.blog7th.post.dto.PostResponse;
+import com.example.blog7th.post.dto.*;
 import com.example.blog7th.user.domain.User;
 import com.example.blog7th.post.domain.Post;
 import com.example.blog7th.user.repository.UserRepository;
@@ -11,6 +9,7 @@ import com.example.blog7th.post.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +21,7 @@ public class PostService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
     private final PostMapper postMapper;
+    private final PasswordEncoder passwordEncoder;
 
     // 최신 목록 조회
     public Page<PostListResponse> getPostList(Pageable pageable) {
@@ -86,4 +86,40 @@ public class PostService {
 
         postRepository.delete(post);
     }
+
+    // 비밀번호 확인
+    @Transactional
+    public PostHideResponse hidePost(Long postId, Long userId, PostHideRequest request) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다."));
+
+        // 1. 작성자 본인인지 확인
+        if (!post.isOwner(userId)) {
+            throw new IllegalStateException("본인의 게시물만 숨길 수 있습니다.");
+        }
+
+        // 2. 비밀번호 인증 (PasswordEncoder 활용)
+        // post.getUser()로 작성자 정보를 가져와서 검증합니다.
+        post.getUser().checkPassword(request.getPassword(), passwordEncoder);
+
+        // 3. 상태 변경
+        post.hide();
+
+        return PostHideResponse.from(post);
+    }
+
+    // 게시물 숨기기
+    @Transactional
+    public PostHideResponse hidePost(Long postId, Long userId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다."));
+
+        // 권한 검증: 작성자 본인인지 확인
+        if (!post.isOwner(userId)) {
+            throw new IllegalStateException("본인의 게시물만 숨길 수 있습니다.");
+        }
+
+        post.hide();
+        return PostHideResponse.from(post);
+        }
 }

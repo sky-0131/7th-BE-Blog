@@ -1,6 +1,7 @@
 package com.example.blog7th.post.mapper; // 또는 .mapper
 
 import com.example.blog7th.post.domain.Post;
+import com.example.blog7th.post.dto.PostHideResponse;
 import com.example.blog7th.post.dto.PostResponse;
 import org.springframework.stereotype.Component;
 import java.util.stream.Collectors;
@@ -25,6 +26,15 @@ public class PostMapper {
                                 .content(comment.getContent())
                                 .build())
                         .collect(Collectors.toList()))
+                .build();
+    }
+
+    public PostHideResponse toHideResponse(Post post) {
+        return PostHideResponse.builder()
+                .postId(post.getId())
+                .title(post.getTitle())
+                .status(post.getStatus())
+                .message("게시물이 성공적으로 숨김 처리되었습니다.")
                 .build();
     }
 }
