@@ -14,14 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class CommentService {
+public class CommentController {
 
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
 
     @Transactional
     public CommentResponse createComment(Long postId, CommentRequest request, User user) {
-        //게시글 존재 확인
+        // 게시글 존재 확인
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
 

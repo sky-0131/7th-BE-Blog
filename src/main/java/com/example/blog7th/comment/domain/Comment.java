@@ -53,6 +53,7 @@ public class Comment extends BaseEntity {
         this.content = content;
         this.user = user;
         this.post = post;
+        this.isPinned = false;
     }
 
     //
