@@ -29,6 +29,9 @@ public class Report extends BaseEntity {
     @Column(name = "report_id")
     private Long id;
 
+    @Version
+    private Long version; //
+
     @Column(nullable = false, length = 500)
     private String reason; // 신고 사유
 

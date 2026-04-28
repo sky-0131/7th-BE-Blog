@@ -22,6 +22,9 @@ public class Post extends BaseEntity {
     @Column(name = "post_id")
     private Long id;
 
+    @Version
+    private Long version;
+
     @Column(nullable = false, length = 100)
     private String title;
 
