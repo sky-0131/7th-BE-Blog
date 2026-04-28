@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -35,5 +38,12 @@ public class CommentService {
         // 저장 및 반환
         Comment savedComment = commentRepository.save(comment);
         return CommentResponse.from(savedComment);
+    }
+
+    public List<CommentResponse> getComments(Long postId) {
+        // 특정 게시글에 달린 댓글들만 조회해서 DTO 리스트로 변환
+        return commentRepository.findAllByPostId(postId).stream()
+                .map(CommentResponse::from)
+                .collect(Collectors.toList());
     }
 }

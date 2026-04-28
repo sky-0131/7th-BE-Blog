@@ -1,39 +1,45 @@
 package com.example.blog7th.comment.controller;
 
-import com.example.blog7th.comment.domain.Comment;
 import com.example.blog7th.comment.dto.CommentRequest;
 import com.example.blog7th.comment.dto.CommentResponse;
-import com.example.blog7th.comment.repository.CommentRepository;
-import com.example.blog7th.post.domain.Post;
-import com.example.blog7th.post.repository.PostRepository;
+import com.example.blog7th.comment.service.CommentService;
 import com.example.blog7th.user.domain.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
-@Service
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/posts/{postId}/comments")
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class CommentController {
 
-    private final CommentRepository commentRepository;
-    private final PostRepository postRepository;
+    private final CommentService commentService;
 
-    @Transactional
-    public CommentResponse createComment(Long postId, CommentRequest request, User user) {
-        // 게시글 존재 확인
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+    /**
+     *POST
+     */
+    @PostMapping
+    public ResponseEntity<CommentResponse> createComment(
+            @PathVariable Long postId,
+            @RequestBody CommentRequest request,
+            @AuthenticationPrincipal User user) {
 
-        // DTO -> Entity 변환
-        Comment comment = Comment.builder()
-                .content(request.getContent())
-                .post(post)
-                .user(user)
-                .build();
+        // 서비스의 createComment 메서드를 호출하여 댓글 저장 후 반환
+        CommentResponse response = commentService.createComment(postId, request, user);
+        return ResponseEntity.ok(response);
+    }
 
-        // 저장 및 반환
-        Comment savedComment = commentRepository.save(comment);
-        return CommentResponse.from(savedComment);
+    /**
+     * GET
+     */
+    @GetMapping
+    public ResponseEntity<List<CommentResponse>> getComments(@PathVariable Long postId) {
+
+        // 특정 게시글(postId)에 달린 댓글 리스트 조회
+        List<CommentResponse> responses = commentService.getComments(postId);
+        return ResponseEntity.ok(responses);
     }
 }
