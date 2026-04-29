@@ -136,8 +136,8 @@ public class PostService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
 
         // 권한 검증
-        if (!post.getUser().getId().equals(userId)) {
-            throw new IllegalStateException("게시글 작성자만 댓글을 고정할 수 있습니다.");
+        if (userId == null || post.getUser() == null || !post.getUser().getId().equals(userId)) {
+            throw new IllegalStateException("게시글 작성자만 고정 가능합니다.");
         }
 
         // 댓글 존재 여부 확인

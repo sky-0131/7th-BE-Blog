@@ -27,6 +27,14 @@ public class Comment extends BaseEntity {
     private String content;
 
     //
+    @Column(name = "is_pinned", nullable = false)
+    private Boolean isPinned = false; // 📍 boolean -> Boolean으로 변경
+
+    public boolean isPinned() {
+        return isPinned != null && isPinned;
+    }
+
+    //
     // N:1 관계 (작성자)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -56,17 +64,12 @@ public class Comment extends BaseEntity {
         this.isPinned = false;
     }
 
-    //
-    @Column(name = "is_pinned", nullable = false)
-    private boolean isPinned = false;
-
-    public boolean isPinned() {
-        return isPinned;
-    }
     public void pin() {
         this.isPinned = true;
     }
+
     public void unpin() {
         this.isPinned = false;
     }
+
 }

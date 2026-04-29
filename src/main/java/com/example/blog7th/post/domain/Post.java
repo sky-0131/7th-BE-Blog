@@ -82,9 +82,13 @@ public class Post extends BaseEntity {
     }
 
     public void unpinAllComments() {
-        this.comments.stream()
-                .filter(Comment::isPinned) // 고정된 댓글들만 필터링
-                .forEach(Comment::unpin);  // 모두 고정 해제 호출
+        if (this.comments == null) return;
+
+        this.comments.forEach(comment -> {
+            if (comment != null && comment.isPinned()) {
+                comment.unpin();
+            }
+        });
     }
 
 }

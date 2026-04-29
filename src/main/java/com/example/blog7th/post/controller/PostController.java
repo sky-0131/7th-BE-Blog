@@ -3,14 +3,12 @@ package com.example.blog7th.post.controller;
 import com.example.blog7th.comment.dto.CommentPinResponse;
 import com.example.blog7th.post.dto.*;
 import com.example.blog7th.post.service.PostService;
-import com.example.blog7th.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
@@ -71,10 +69,10 @@ public class PostController {
     public ResponseEntity<CommentPinResponse> pinComment(
             @PathVariable Long postId,
             @PathVariable Long commentId,
-            @AuthenticationPrincipal User user // ✨ 현재 로그인한 유저 정보를 가져옵니다.
+            @RequestParam Long userId
     ) {
         // Service를 호출하여 비즈니스 로직 실행
-        CommentPinResponse response = postService.pinComment(postId, commentId, user.getId());
+        CommentPinResponse response = postService.pinComment(postId, commentId, userId);
 
         return ResponseEntity.ok(response);
     }

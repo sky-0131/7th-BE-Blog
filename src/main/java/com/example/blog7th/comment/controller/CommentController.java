@@ -24,14 +24,13 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<CommentResponse> createComment(
             @PathVariable Long postId,
-            @RequestBody CommentRequest request,
-            @AuthenticationPrincipal User user) {
+            @RequestParam Long userId,
+            @RequestBody CommentRequest request) { // 📍 ) 를 넣어서 파라미터를 닫아줘야 합니다.
 
         // 서비스의 createComment 메서드를 호출하여 댓글 저장 후 반환
-        CommentResponse response = commentService.createComment(postId, request, user);
+        CommentResponse response = commentService.createComment(postId, userId, request);
         return ResponseEntity.ok(response);
     }
-
     /**
      * GET
      */

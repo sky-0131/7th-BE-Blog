@@ -7,6 +7,7 @@ import com.example.blog7th.comment.repository.CommentRepository;
 import com.example.blog7th.post.domain.Post;
 import com.example.blog7th.post.repository.PostRepository;
 import com.example.blog7th.user.domain.User;
+import com.example.blog7th.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,29 +22,35 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     @Transactional
-    public CommentResponse createComment(Long postId, CommentRequest request, User user) {
-        // 게시글 존재 확인
+    public CommentResponse createComment(Long postId, Long userId, CommentRequest request) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
 
-        // DTO -> Entity 변환
+        //
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다."));
+
         Comment comment = Comment.builder()
                 .content(request.getContent())
                 .post(post)
                 .user(user)
                 .build();
 
-        // 저장 및 반환
         Comment savedComment = commentRepository.save(comment);
         return CommentResponse.from(savedComment);
     }
 
     public List<CommentResponse> getComments(Long postId) {
-        // 특정 게시글에 달린 댓글들만 조회해서 DTO 리스트로 변환
-        return commentRepository.findAllByPostId(postId).stream()
-                .map(CommentResponse::from)
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+
+        List<Comment> comments = commentRepository.findAllByPostOrderByIsPinnedDescCreatedAtAsc(post);
+
+        return comments.stream()
+                .map((Comment c) -> CommentResponse.from(c))
                 .collect(Collectors.toList());
     }
 }

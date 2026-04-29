@@ -6,6 +6,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 public class PostListResponse {
+    // 게시글 정보
     private Long postId;
     private String title;
     private String nickname;

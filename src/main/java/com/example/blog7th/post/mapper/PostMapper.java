@@ -1,5 +1,6 @@
 package com.example.blog7th.post.mapper; // 또는 .mapper
 
+import com.example.blog7th.comment.dto.CommentResponse;
 import com.example.blog7th.post.domain.Post;
 import com.example.blog7th.post.dto.PostHideResponse;
 import com.example.blog7th.post.dto.PostResponse;
@@ -20,11 +21,7 @@ public class PostMapper {
                 .createdAt(post.getCreatedAt())
                 .updatedAt(post.getUpdatedAt())
                 .comments(post.getComments().stream()
-                        .map(comment -> PostResponse.CommentDto.builder()
-                                .commentId(comment.getId())
-                                .nickname(comment.getUser().getNickname())
-                                .content(comment.getContent())
-                                .build())
+                        .map(CommentResponse::from)
                         .collect(Collectors.toList()))
                 .build();
     }
