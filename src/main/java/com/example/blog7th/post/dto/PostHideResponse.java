@@ -15,13 +15,4 @@ public class PostHideResponse {
     private final String title;
     private final PostStatus status;
     private final String message;
-
-    public static PostHideResponse from(Post post) {
-        return PostHideResponse.builder()
-                .postId(post.getId())
-                .title(post.getTitle())
-                .status(post.getStatus())
-                .message("게시물이 성공적으로 숨겨졌습니다.")
-                .build();
-    }
 }

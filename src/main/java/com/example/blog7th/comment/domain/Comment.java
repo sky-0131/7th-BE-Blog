@@ -28,13 +28,14 @@ public class Comment extends BaseEntity {
 
     //
     @Column(name = "is_pinned", nullable = false)
-    private Boolean isPinned = false; // 📍 boolean -> Boolean으로 변경
+    private Boolean isPinned = false; //
 
     public boolean isPinned() {
         return isPinned != null && isPinned;
     }
 
-    //
+
+
     // N:1 관계 (작성자)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

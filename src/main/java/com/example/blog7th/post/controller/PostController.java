@@ -1,6 +1,5 @@
 package com.example.blog7th.post.controller;
 
-import com.example.blog7th.comment.dto.CommentPinResponse;
 import com.example.blog7th.post.dto.*;
 import com.example.blog7th.post.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -61,19 +60,6 @@ public class PostController {
             @RequestBody(required = false) PostHideRequest request
     ) {
         PostHideResponse response = postService.hidePost(postId, userId);
-        return ResponseEntity.ok(response);
-    }
-
-    // 댓글 고정
-    @PatchMapping("/{postId}/comments/{commentId}/pin")
-    public ResponseEntity<CommentPinResponse> pinComment(
-            @PathVariable Long postId,
-            @PathVariable Long commentId,
-            @RequestParam Long userId
-    ) {
-        // Service를 호출하여 비즈니스 로직 실행
-        CommentPinResponse response = postService.pinComment(postId, commentId, userId);
-
         return ResponseEntity.ok(response);
     }
 }

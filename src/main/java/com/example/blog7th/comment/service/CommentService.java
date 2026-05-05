@@ -1,6 +1,7 @@
 package com.example.blog7th.comment.service;
 
 import com.example.blog7th.comment.domain.Comment;
+import com.example.blog7th.comment.dto.CommentPinResponse;
 import com.example.blog7th.comment.dto.CommentRequest;
 import com.example.blog7th.comment.dto.CommentResponse;
 import com.example.blog7th.comment.repository.CommentRepository;
@@ -29,7 +30,6 @@ public class CommentService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
 
-        //
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다."));
 
@@ -52,5 +52,25 @@ public class CommentService {
         return comments.stream()
                 .map((Comment c) -> CommentResponse.from(c))
                 .collect(Collectors.toList());
+    }
+
+    // 댓글 고정
+    @Transactional
+    public CommentPinResponse pinComment(Long commentId, Long userId) {
+        // 댓글 존재 여부 확인
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
+
+        // 댓글이 속한 게시글 객체 가져오기
+        Post post = comment.getPost();
+
+        if (!post.isOwner(userId)) {
+            throw new IllegalStateException("게시글 작성자만 댓글을 고정할 수 있습니다.");
+        }
+
+        post.unpinAllComments();
+
+        comment.pin();
+        return CommentPinResponse.from(comment, "댓글이 성공적으로 고정되었습니다.");
     }
 }

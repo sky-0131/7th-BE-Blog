@@ -1,12 +1,11 @@
 package com.example.blog7th.comment.controller;
 
+import com.example.blog7th.comment.dto.CommentPinResponse;
 import com.example.blog7th.comment.dto.CommentRequest;
 import com.example.blog7th.comment.dto.CommentResponse;
 import com.example.blog7th.comment.service.CommentService;
-import com.example.blog7th.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +24,7 @@ public class CommentController {
     public ResponseEntity<CommentResponse> createComment(
             @PathVariable Long postId,
             @RequestParam Long userId,
-            @RequestBody CommentRequest request) { // 📍 ) 를 넣어서 파라미터를 닫아줘야 합니다.
+            @RequestBody CommentRequest request) {
 
         // 서비스의 createComment 메서드를 호출하여 댓글 저장 후 반환
         CommentResponse response = commentService.createComment(postId, userId, request);
@@ -41,4 +40,17 @@ public class CommentController {
         List<CommentResponse> responses = commentService.getComments(postId);
         return ResponseEntity.ok(responses);
     }
+
+    // 댓글 고정
+    @PatchMapping("/{commentId}/pin")
+    public ResponseEntity<CommentPinResponse> pinComment(
+            @PathVariable Long postId,
+            @PathVariable Long commentId,
+            @RequestParam Long userId) {
+
+        CommentPinResponse response = commentService.pinComment(commentId, userId);
+
+        return ResponseEntity.ok(response);
+    }
+
 }
