@@ -59,7 +59,7 @@ public class PostController {
             @RequestParam Long userId,
             @RequestBody(required = false) PostHideRequest request
     ) {
-        PostHideResponse response = postService.hidePost(postId, userId);
+        PostHideResponse response = postService.hidePost(postId, userId, request);
         return ResponseEntity.ok(response);
     }
 }

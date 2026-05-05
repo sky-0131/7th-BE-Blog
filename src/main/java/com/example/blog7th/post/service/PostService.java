@@ -87,38 +87,20 @@ public class PostService {
         postRepository.delete(post);
     }
 
-    // 비밀번호 확인
+    // 포스트 숨김
     @Transactional
     public PostHideResponse hidePost(Long postId, Long userId, PostHideRequest request) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다."));
 
-        // 작성자 본인인지 확인
         if (!post.isOwner(userId)) {
             throw new IllegalStateException("본인의 게시물만 숨길 수 있습니다.");
         }
 
-        // 비밀번호 인증 (PasswordEncoder 활용)
-        // post.getUser()로 작성자 정보를 가져와서 검증합니다.
+        // 비밀번호 인증
         post.getUser().checkPassword(request.getPassword(), passwordEncoder);
 
-        // 상태 변경
-        post.hide();
-
-        return postMapper.toHideResponse(post);
-    }
-
-    // 게시물 숨기기
-    @Transactional
-    public PostHideResponse hidePost(Long postId, Long userId) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다."));
-
-        // 권한 검증: 작성자 본인인지 확인
-        if (!post.isOwner(userId)) {
-            throw new IllegalStateException("본인의 게시물만 숨길 수 있습니다.");
-        }
-
+        //숨김 처리 및 반환
         post.hide();
         return postMapper.toHideResponse(post);
     }
