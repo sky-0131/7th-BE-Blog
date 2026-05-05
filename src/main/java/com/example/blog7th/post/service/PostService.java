@@ -1,5 +1,7 @@
 package com.example.blog7th.post.service;
 
+import com.example.blog7th.comment.domain.Comment;
+import com.example.blog7th.comment.repository.CommentRepository;
 import com.example.blog7th.post.dto.*;
 import com.example.blog7th.user.domain.User;
 import com.example.blog7th.post.domain.Post;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +23,7 @@ public class PostService {
 
     private final UserRepository userRepository;
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
     private final PostMapper postMapper;
     private final PasswordEncoder passwordEncoder;
 
@@ -103,5 +107,15 @@ public class PostService {
         //숨김 처리 및 반환
         post.hide();
         return postMapper.toHideResponse(post);
+    }
+
+    // 댓글 고정 확인
+    public void unpinPostComments(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("게시글이 없습니다."));
+
+        //고정된 댓글만
+        List<Comment> pinnedComments = commentRepository.findByPostAndIsPinnedTrue(post);
+        pinnedComments.forEach(Comment::unpin);
     }
 }

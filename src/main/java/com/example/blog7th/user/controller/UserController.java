@@ -25,9 +25,8 @@ public class UserController {
     }
 
     @PostMapping
-    @Transactional // 5. 데이터를 저장할 때는 꼭 붙여줘야 합니다!
+    @Transactional
     public ResponseEntity<Long> createUser(@RequestBody UserRequest request) {
-        // 6. [핵심] 서비스 메서드 대신 여기서 바로 저장합니다.
         User user = request.toEntity();
         User savedUser = userRepository.save(user);
 

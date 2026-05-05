@@ -26,14 +26,6 @@ public class Comment extends BaseEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    //
-    @Column(name = "is_pinned", nullable = false)
-    private Boolean isPinned = false; //
-
-    public boolean isPinned() {
-        return isPinned != null && isPinned;
-    }
-
 
 
     // N:1 관계 (작성자)
@@ -56,6 +48,8 @@ public class Comment extends BaseEntity {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> children = new ArrayList<>();
 
+    @Column(name = "is_pinned", nullable = false)
+    private boolean isPinned = false;
 
     @Builder
     public Comment(String content, User user, Post post) {
@@ -76,5 +70,6 @@ public class Comment extends BaseEntity {
     public void hide() {
         this.content = "신고 누적으로 인해 블라인드 처리된 댓글입니다.";
     }
+
 
 }

@@ -8,4 +8,6 @@ import java.util.List; // 반드시 java.util.List를 임포트해야 합니다.
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findAllByPostOrderByIsPinnedDescCreatedAtAsc(Post post);
+    List<Comment> findByPostAndIsPinnedTrue(Post post);
+    //고정 확인
 }

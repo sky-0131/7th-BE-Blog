@@ -30,8 +30,7 @@ public class ApiExceptionHandler {
         return createResponse("Forbidden", ex.getMessage(), 403);
     }
 
-    // 4. 그 외 예측하지 못한 모든 런타임 에러 (500 Internal Server Error)
-    // 이제 여기서는 NPE 같은 진짜 시스템 에러만 잡힙니다.
+    // 4. 그 외 예측하지 못한 모든 런타임 에러 (500 Internal Server Error).
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, String>> handleAllRuntimeException(RuntimeException ex) {
         return createResponse("Internal Server Error", "서버 내부 오류가 발생했습니다.", 500);
