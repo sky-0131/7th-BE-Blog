@@ -4,7 +4,9 @@ import com.example.blog7th.comment.dto.CommentPinResponse;
 import com.example.blog7th.comment.dto.CommentRequest;
 import com.example.blog7th.comment.dto.CommentResponse;
 import com.example.blog7th.comment.service.CommentService;
+import com.example.blog7th.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,9 +48,9 @@ public class CommentController {
     public ResponseEntity<CommentPinResponse> pinComment(
             @PathVariable Long postId,
             @PathVariable Long commentId,
-            @RequestParam Long userId) {
+            @AuthenticationPrincipal User user) {
 
-        CommentPinResponse response = commentService.pinComment(commentId, userId);
+        CommentPinResponse response = commentService.pinComment(commentId, user.getId());
 
         return ResponseEntity.ok(response);
     }
