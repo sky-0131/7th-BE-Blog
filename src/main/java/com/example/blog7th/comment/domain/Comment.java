@@ -72,4 +72,8 @@ public class Comment extends BaseEntity {
         this.isPinned = false;
     }
 
+    public void hide() {
+        this.content = "신고 누적으로 인해 블라인드 처리된 댓글입니다.";
+    }
+
 }

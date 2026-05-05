@@ -15,4 +15,7 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
 
     // 댓글을 이미 신고했는지 (중복 방지용)
     boolean existsByReporterAndComment(User reporter, Comment comment);
+
+    long countByPost(Post post);
+    long countByComment(Comment comment);
 }

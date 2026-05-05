@@ -12,6 +12,8 @@ public class ReportResponse {
     private Long reportId;      // 생성된 신고 번호
     private String message;     // "신고가 접수되었습니다." 등의 메시지
     private ReportStatus status; // 현재 상태 (PENDING 등)
+    private boolean isHidden;
+    private long currentCount;
 
     public static ReportResponse success(Long id) {
         return ReportResponse.builder()
