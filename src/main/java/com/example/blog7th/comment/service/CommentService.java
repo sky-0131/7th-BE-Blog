@@ -56,7 +56,7 @@ public class CommentService {
 
     // 댓글 고정
     @Transactional
-    public CommentPinResponse pinComment(Long commentId, Long userId) {
+    public CommentPinResponse pinComment(Long postId, Long commentId, Long userId) {
         // 댓글 존재 여부 확인
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
@@ -68,7 +68,7 @@ public class CommentService {
             throw new IllegalStateException("게시글 작성자만 댓글을 고정할 수 있습니다.");
         }
 
-        post.unpinAllComments();
+        post.unpinPostComments();
 
         comment.pin();
         return CommentPinResponse.from(comment, "댓글이 성공적으로 고정되었습니다.");

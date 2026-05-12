@@ -82,4 +82,9 @@ public class Post extends BaseEntity {
         return userId.equals(this.user.getId());
     }
 
+    public void unpinPostComments() {
+        if (this.comments != null) {
+            this.comments.forEach(Comment::unpin);
+        }
+    }
 }

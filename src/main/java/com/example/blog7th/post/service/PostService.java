@@ -94,6 +94,10 @@ public class PostService {
     // 포스트 숨김
     @Transactional
     public PostHideResponse hidePost(Long postId, Long userId, PostHideRequest request) {
+        if (request == null) {
+            throw new IllegalArgumentException("요청 바디가 누락되었습니다. (required = true)");
+        }
+
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다."));
 
@@ -117,5 +121,7 @@ public class PostService {
         //고정된 댓글만
         List<Comment> pinnedComments = commentRepository.findByPostAndIsPinnedTrue(post);
         pinnedComments.forEach(Comment::unpin);
+
+        post.unpinPostComments();
     }
 }

@@ -22,6 +22,7 @@ public class ReportService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
+    @Transactional
     public ReportResponse createReport(ReportRequest request, Long userId, Long postId) {
 
         User reporter = userRepository.findById(userId)
@@ -51,7 +52,7 @@ public class ReportService {
 
         Report savedReport = reportRepository.save(report);
 
-        // 6. 신고 누적에 따른 자동 숨김 처리 (기존 로직 유지)
+        //  신고 누적에 따른 자동 숨김 처리 (기존 로직 유지)
         long reportCount = reportRepository.countByPost(post);
         if (reportCount >= 3) {
             post.hide();

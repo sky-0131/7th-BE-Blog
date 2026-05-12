@@ -50,7 +50,7 @@ public class CommentController {
             @PathVariable Long commentId,
             @AuthenticationPrincipal User user) {
 
-        CommentPinResponse response = commentService.pinComment(commentId, user.getId());
+        CommentPinResponse response = commentService.pinComment(postId, commentId, user.getId());
 
         return ResponseEntity.ok(response);
     }

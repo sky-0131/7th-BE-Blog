@@ -1,4 +1,9 @@
 package com.example.blog7th.global.config.swagger;
 
-public class ApiErrorCodeExample {
+import java.lang.annotation.*;
+
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ApiErrorCodeExample {
+    String value();
 }

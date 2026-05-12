@@ -49,4 +49,4 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-}
+} // 토큰 방식으로 전부 뜯어고칠 것
