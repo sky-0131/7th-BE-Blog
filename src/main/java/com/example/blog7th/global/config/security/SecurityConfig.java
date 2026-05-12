@@ -1,4 +1,4 @@
-package com.example.blog7th.global.config;
+package com.example.blog7th.global.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
