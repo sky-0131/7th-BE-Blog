@@ -1,6 +1,5 @@
 spring.application.name=blog7th
 
-
 # db connect
 spring.datasource.url=jdbc:h2:mem:testdb
 spring.datasource.driver-class-name=org.h2.Driver
@@ -17,3 +16,7 @@ spring.jpa.properties.hibernate.use_sql_comments=true
 spring.h2.console.enabled=true
 spring.h2.console.path=/h2-console
 
+# JWT
+jwt.secret=c3ByaW5nLWJvb3Qtc2VjdXdjfei9394and0LXNlY3JldC1rZXktZXhhbXBsZS1jb2RlLWJsb2c3dGg=
+jwt.access-token-expiration=3600000
+jwt.refresh-token-expiration=604800000
