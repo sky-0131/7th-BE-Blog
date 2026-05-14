@@ -16,5 +16,3 @@ Thumbs.db
 
 *.log
 .env
-
-src/main/resources/application.yml

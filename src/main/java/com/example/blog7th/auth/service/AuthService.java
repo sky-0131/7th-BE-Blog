@@ -9,6 +9,7 @@ import com.example.blog7th.user.domain.User;
 import com.example.blog7th.user.domain.UserRole;
 import com.example.blog7th.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,9 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
+
+    @Value("${jwt.refresh-token-expiration}")
+    private long refreshTokenExpiration;
 
     // 회원가입: 비밀번호 암호화 및 중복 체크
     @Transactional
@@ -60,12 +64,12 @@ public class AuthService {
         String accessToken = jwtTokenProvider.createAccessToken(user.getEmail());
         String refreshToken = jwtTokenProvider.createRefreshToken();
 
+        long expirationDays = refreshTokenExpiration / (1000 * 60 * 60 * 24);
         //DB
         refreshTokenRepository.findByUserId(user.getId())
                 .ifPresentOrElse(
-                        token -> token.updateToken(refreshToken),
-                        () -> refreshTokenRepository.save(new RefreshToken(user.getId(), refreshToken, LocalDateTime.now().plusDays(7)))
-                );
+                        token -> token.updateToken(refreshToken, expirationDays),
+                        () -> refreshTokenRepository.save(new RefreshToken(user.getId(), refreshToken, LocalDateTime.now().plusDays(expirationDays)))                );
 
         return new TokenResponse(accessToken, refreshToken);
     }

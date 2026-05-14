@@ -29,9 +29,7 @@ public class RefreshToken {
         this.expiryDate = expiryDate;
     }
 
-    public void updateToken(String newToken) {
+    public void updateToken(String newToken, long expirationDays) {
         this.token = newToken;
-        this.expiryDate = LocalDateTime.now().plusDays(14);
-    }
-
+        this.expiryDate = LocalDateTime.now().plusDays(expirationDays);}
 }
