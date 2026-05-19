@@ -43,6 +43,11 @@ public class User extends BaseEntity {
     @Column(name = "is_active", nullable = false)
     private boolean isActive = true;
 
+    @Column(name = "provider") // 어떤 서비스(KAKAO, EMAIL)인지 저장
+    private String provider;
+
+    @Column(name = "provider_id") // 카카오가 부여한 고유 ID
+    private String providerId;
     //
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
@@ -51,12 +56,14 @@ public class User extends BaseEntity {
     private List<Comment> comments = new ArrayList<>();
 
     @Builder
-    public User(String email, String password, String nickname, String profileImage, UserRole role) {
+    public User(String email, String password, String nickname, String profileImage, UserRole role, String provider, String providerId) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.profileImage = profileImage;
         this.role = role;
+        this.provider = provider;
+        this.providerId = providerId;
     }
 
     public void checkPassword(String password, PasswordEncoder passwordEncoder) {
