@@ -8,4 +8,9 @@ import lombok.Getter;
 public class TokenResponse {
     private String accessToken;
     private String refreshToken;
+
+    public TokenResponse(String accessToken) {
+        this.accessToken = accessToken;
+        this.refreshToken = null; // 리프레시 토큰은 null로 처리
+    }
 }
