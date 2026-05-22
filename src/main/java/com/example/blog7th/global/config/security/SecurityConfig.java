@@ -42,8 +42,8 @@ public class SecurityConfig {
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         .requestMatchers("/api/v1/auth", "/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/v1/login", "/api/v1/login/**").permitAll()
-                        .anyRequest().authenticated() // 나머지는 토큰 없으면 거부하도록 설정 - 인증 필요
                         .requestMatchers("/auth/kakao/**").permitAll()
+                        .anyRequest().authenticated() // 나머지는 토큰 없으면 거부하도록 설정 - 인증 필요
                 )
                 // JWT 필터를 Security 필터 체인에 등록
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
