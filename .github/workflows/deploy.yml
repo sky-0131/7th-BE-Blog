@@ -14,7 +14,7 @@ jobs:
       - name: Create application.yml
         run: |
           mkdir -p ./src/main/resources
-          echo "${{ secrets.APPLICATION_YML }}" > ./src/main/resources/application.yml
+          echo "${{ secrets.LEETS_BLOGSERVICE_SECRET }}" > ./src/main/resources/application.yml
 
       # 프로젝트 파일 서버로 전송
       - name: Copy files
